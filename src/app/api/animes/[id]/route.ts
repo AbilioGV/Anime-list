@@ -18,10 +18,13 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: Request,
+  context: { params: { id: string } }
+) {
   try {
     await connectToDatabase();
-    const { id } = params;
+    const { id } = context.params;
     const updatedData = await request.json();
     const updatedAnime = await Anime.findByIdAndUpdate(id, updatedData, { new: true });
     revalidatePath('/');
